@@ -29,8 +29,8 @@ diff -Nur wwwcount-2.4-orig/Count-config wwwcount-2.4/Count-config
 -LogFile="Count$Version.log"
 -RgbFile="./wcount/rgb.txt"
 +DataDir="/var/lib/wwwcount"
-+LogDir="/var/log"
-+LogFile="wwwcount.log"
++LogDir="/var/log/httpd"
++LogFile="wwwcount"
 +RgbFile="./rgb.txt"
  
  #
