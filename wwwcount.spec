@@ -1,12 +1,13 @@
 #
 # Conditional build:
-# _without_database - without database support (wwwcount works in old way)
+# _without_database	- without database support (wwwcount works in old way)
+# _with_db3		- use db3 instead of db package
 #
 Summary:	WWW Hit Access Counter
 Summary(pl):	Licznik dostepu do strony WWW
 Name:		wwwcount
 Version:	2.6
-Release:	6
+Release:	7
 Epoch:		1
 Group:		Networking/Utilities
 License:	BSD-like
@@ -16,9 +17,17 @@ Source2:	%{name}.cfg
 Source3:	%{name}.logrotate
 Patch0:		%{name}-pld.patch
 URL:		http://www.muquit.com/muquit/software/Count/Count2.6/Count.html
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-%{!?_without_database:BuildRequires:	db3-devel}
+BuildRequires:	automake
+%{!?_without_database:%{?_with_db3:BuildRequires:	db3-devel}}
+%{!?_without_database:%{!?_with_db3:BuildRequires:	db-devel}}
+Requires(post):	/bin/hostname
+Requires(post):	fileutils
+Requires(post):	sed
 Requires:	httpd
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		httpdir		/home/services/httpd
+%define		cgidir		%{httpdir}/cgi-bin
 
 %description
 wwwcount is a cgi script for apache (and other http daemons), which
@@ -36,8 +45,7 @@ Mo¿esz u¿ywaæ tak¿e swoich unikalnych czcionek.
 tar xzf %{SOURCE1}
 
 %build
-#aclocal
-#autoconf
+cp -f /usr/share/automake/config.* .
 %configure2_13 \
 	%{?_without_database:--without-database}
 
@@ -46,13 +54,13 @@ tar xzf %{SOURCE1}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/logrotate.d,/home/services/httpd/cgi-bin} \
+install -d $RPM_BUILD_ROOT{/etc/logrotate.d,%{cgidir}} \
 	$RPM_BUILD_ROOT/var/{log/httpd,lib/wwwcount/{data,db,log/archiv}} \
 	$RPM_BUILD_ROOT{%{_libdir}/wwwcount,%{_bindir}}
 
-install bin/Count.cgi $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/wwwcount.cgi
-%{!?_without_database:install bin/count_admin.cgi %$RPM_BUILD_ROOT/home/services/httpd/cgi-bin/wwwcount_admin.cgi}
-%{!?_without_database:install bin/count_admin_help.cgi $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/wwwcount_admin_help.cgi}
+install bin/Count.cgi $RPM_BUILD_ROOT%{cgidir}/wwwcount.cgi
+%{!?_without_database:install bin/count_admin.cgi $RPM_BUILD_ROOT%{cgidir}/wwwcount_admin.cgi}
+%{!?_without_database:install bin/count_admin_help.cgi $RPM_BUILD_ROOT%{cgidir}/wwwcount_admin_help.cgi}
 install bin/{extdgts,mkstrip,mwhich} $RPM_BUILD_ROOT%{_bindir}
 %{!?_without_database:install bin/{editdb,dumpdb,rgbtxt2db} $RPM_BUILD_ROOT%{_bindir}}
 install data/data/* $RPM_BUILD_ROOT/var/lib/wwwcount/data
@@ -69,24 +77,22 @@ touch $RPM_BUILD_ROOT/var/lib/wwwcount/log/wwwcount-{error,visitor}
 rm -rf %{name}%{version}docs/{dirsync,prehtml,scripts,tmp,README,gzip.arc,mkarc.sh}
 rm -rf %{name}%{version}docs/Count%{version}/download
 
-%post
-TMPFILE=`mktemp /tmp/wwwcount-XXXXXX`
-mv -f /etc/wwwcount.cfg $TMPFILE
-cat $TMPFILE | sed "s/%HOSTNAME%/`hostname -f`/g" | \
-	sed "s/%DOMAINNAME%/`hostname -d`/g" | \
-	sed "s/%IPNAME%/`hostname -i`/g" > /etc/wwwcount.cfg
-chmod 644 /etc/wwwcount.cfg
-rm -f $TMPFILE
-
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+umask 022
+sed %{_sysconfdir}/wwwcount.cfg -e "s/%HOSTNAME%/`hostname -f`/g" \
+	-e "s/%DOMAINNAME%/`hostname -d`/g" \
+	-e "s/%IPNAME%/`hostname -i`/g" > %{_sysconfdir}/wwwcount.cfg.rpmtmp
+mv -f %{_sysconfdir}/wwwcount.cfg.rpmtmp %{_sysconfdir}/wwwcount.cfg
 
 %files
 %defattr(644,root,root,755)
 %doc README TODO %{name}%{version}docs/*
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) /home/services/httpd/cgi-bin/wwwcount.cgi
-%{!?_without_database: %attr(755,root,root) /home/services/httpd/cgi-bin/wwwcount_*.cgi}
+%attr(755,root,root) %{cgidir}/wwwcount.cgi
+%{!?_without_database:%attr(755,root,root) %{cgidir}/wwwcount_*.cgi}
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/wwwcount.cfg
 %attr(775,root,http) %dir /var/lib/wwwcount
 %attr(775,root,http) %dir /var/lib/wwwcount/log
