@@ -7,6 +7,7 @@ Summary(pl):	Licznik dostepu do strony WWW
 Name:		wwwcount
 Version:	2.6
 Release:	3
+Epoch:		1
 Group:		Networking/Utilities
 Group(cs):	Sí»ové/Utility
 Group(da):	Netværks/Værktøj
