@@ -46,12 +46,9 @@ tar xzf %{SOURCE1}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-install -d $RPM_BUILD_ROOT/etc/logrotate.d
-install -d $RPM_BUILD_ROOT/home/httpd/cgi-bin
-install -d $RPM_BUILD_ROOT/var/{log/httpd,lib/wwwcount/{data,db,log/archiv}}
-install -d $RPM_BUILD_ROOT%{_libdir}/wwwcount
-install -d $RPM_BUILD_ROOT%{_bindir}
+install -d $RPM_BUILD_ROOT{/etc/logrotate.d,/home/httpd/cgi-bin} \
+	$RPM_BUILD_ROOT/var/{log/httpd,lib/wwwcount/{data,db,log/archiv}} \
+	$RPM_BUILD_ROOT{%{_libdir}/wwwcount,%{_bindir}}
 
 install bin/Count.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/wwwcount.cgi
 %{!?_without_database:install bin/count_admin.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/wwwcount_admin.cgi}
@@ -69,7 +66,6 @@ cp -rf data/fonts $RPM_BUILD_ROOT%{_libdir}/wwwcount
 
 touch $RPM_BUILD_ROOT/var/lib/wwwcount/log/wwwcount-{error,visitor}
 
-gzip -9nf README TODO
 rm -rf %{name}%{version}docs/{dirsync,prehtml,scripts,tmp,README,gzip.arc,mkarc.sh}
 rm -rf %{name}%{version}docs/Count%{version}/download
 
@@ -77,8 +73,8 @@ rm -rf %{name}%{version}docs/Count%{version}/download
 TMPFILE=`mktemp /tmp/wwwcount-XXXXXX`
 mv -f /etc/wwwcount.cfg $TMPFILE
 cat $TMPFILE | sed "s/%HOSTNAME%/`hostname -f`/g" | \
-  sed "s/%DOMAINNAME%/`hostname -d`/g" | \
-  sed "s/%IPNAME%/`hostname -i`/g" > /etc/wwwcount.cfg
+	sed "s/%DOMAINNAME%/`hostname -d`/g" | \
+	sed "s/%IPNAME%/`hostname -i`/g" > /etc/wwwcount.cfg
 chmod 644 /etc/wwwcount.cfg
 rm -f $TMPFILE
 
@@ -87,7 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz %{name}%{version}docs/*
+%doc READMETODO %{name}%{version}docs/*
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) /home/httpd/cgi-bin/wwwcount.cgi
 %{!?_without_database: %attr(755,root,root) /home/httpd/cgi-bin/wwwcount_*.cgi}
