@@ -30,7 +30,7 @@ twoj± stronê. Mo¿esz u¿ywaæ tak¿e swoich unikalnych czcionek.
 ./Count-config
 CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
   ./configure %{_target_platform} --prefix=/usr
-make
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
