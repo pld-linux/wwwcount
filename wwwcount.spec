@@ -9,7 +9,9 @@ Version:	2.6
 Release:	2
 Group:		Networking/Utilities
 Group(de):	Netzwerkwesen/Werkzeuge
+Group(es):	Red/Utilitarios
 Group(pl):	Sieciowe/Narzêdzia
+Group(pt_BR):	Rede/Utilitários
 License:	BSD-like
 Source0:	http://www.muquit.com/muquit/software/Count/Count2.6/download/src/%{name}%{version}.tar.gz
 Source1:	http://www.muquit.com/muquit/software/Count/Count2.6/download/docs/%{name}%{version}docs.tar.gz
