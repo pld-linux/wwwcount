@@ -1,7 +1,7 @@
 #
 # Conditional build:
-# _without_database	- without database support (wwwcount works in old way)
-# _with_db3		- use db3 instead of db package
+%bcond_without	database	# without database support (wwwcount works in old way)
+%bcond_with	db3		# use db3 instead of db package
 #
 Summary:	WWW Hit Access Counter
 Summary(pl):	Licznik dostepu do strony WWW
@@ -18,10 +18,13 @@ Source1:	http://www.muquit.com/muquit/software/Count/Count2.6/Count2.6/download/
 Source2:	%{name}.cfg
 Source3:	%{name}.logrotate
 Patch0:		%{name}-pld.patch
+Patch1:		%{name}-errno.patch
 URL:		http://www.muquit.com/muquit/software/Count/Count2.6/Count.html
 BuildRequires:	automake
-%{!?_without_database:%{?_with_db3:BuildRequires:	db3-devel}}
-%{!?_without_database:%{!?_with_db3:BuildRequires:	db-devel}}
+%if %{with database}
+%{?with_db3:BuildRequires:	db3-devel}
+%{!?with_db3:BuildRequires:	db-devel}
+%endif
 Requires(post):	/bin/hostname
 Requires(post):	fileutils
 Requires(post):	sed
@@ -43,13 +46,14 @@ Mo¿esz u¿ywaæ tak¿e swoich unikalnych czcionek.
 
 %prep
 %setup -q -n %{name}%{version}
-%patch -p1
+%patch0 -p1
+%patch1 -p1
 tar xzf %{SOURCE1}
 
 %build
 cp -f /usr/share/automake/config.* .
 %configure2_13 \
-	%{?_without_database:--without-database}
+	%{!?with_database:--without-database}
 
 ./Count-config
 ./build --all
@@ -61,10 +65,10 @@ install -d $RPM_BUILD_ROOT{/etc/logrotate.d,%{cgidir}} \
 	$RPM_BUILD_ROOT{%{_libdir}/wwwcount,%{_bindir}}
 
 install bin/Count.cgi $RPM_BUILD_ROOT%{cgidir}/wwwcount.cgi
-%{!?_without_database:install bin/count_admin.cgi $RPM_BUILD_ROOT%{cgidir}/wwwcount_admin.cgi}
-%{!?_without_database:install bin/count_admin_help.cgi $RPM_BUILD_ROOT%{cgidir}/wwwcount_admin_help.cgi}
+%{?with_database:install bin/count_admin.cgi $RPM_BUILD_ROOT%{cgidir}/wwwcount_admin.cgi}
+%{?with_database:install bin/count_admin_help.cgi $RPM_BUILD_ROOT%{cgidir}/wwwcount_admin_help.cgi}
 install bin/{extdgts,mkstrip,mwhich} $RPM_BUILD_ROOT%{_bindir}
-%{!?_without_database:install bin/{editdb,dumpdb,rgbtxt2db} $RPM_BUILD_ROOT%{_bindir}}
+%{?with_database:install bin/{editdb,dumpdb,rgbtxt2db} $RPM_BUILD_ROOT%{_bindir}}
 install data/data/* $RPM_BUILD_ROOT/var/lib/wwwcount/data
 install data/rgb.txt $RPM_BUILD_ROOT%{_libdir}/wwwcount
 
@@ -94,14 +98,14 @@ mv -f %{_sysconfdir}/wwwcount.cfg.rpmtmp %{_sysconfdir}/wwwcount.cfg
 %doc README TODO %{name}%{version}docs/*
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{cgidir}/wwwcount.cgi
-%{!?_without_database:%attr(755,root,root) %{cgidir}/wwwcount_*.cgi}
+%{?with_database:%attr(755,root,root) %{cgidir}/wwwcount_*.cgi}
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/wwwcount.cfg
 %attr(775,root,http) %dir /var/lib/wwwcount
 %attr(775,root,http) %dir /var/lib/wwwcount/log
 %attr(775,root,http) %dir /var/lib/wwwcount/log/archiv
-%{?_without_database:%attr(775,root,http) %dir /var/lib/wwwcount/data}
-%{!?_without_database:%attr(775,root,http) %dir /var/lib/wwwcount/db}
-%{?_without_database:%attr(664,root,http) %config(noreplace) %verify(not size mtime md5) /var/lib/wwwcount/data/*}
+%{!?with_database:%attr(775,root,http) %dir /var/lib/wwwcount/data}
+%{?with_database:%attr(775,root,http) %dir /var/lib/wwwcount/db}
+%{!?with_database:%attr(664,root,http) %config(noreplace) %verify(not size mtime md5) /var/lib/wwwcount/data/*}
 %attr(664,root,http) %config(noreplace) %verify(not size mtime md5) /var/lib/wwwcount/log/wwwcount*
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/*
 %{_libdir}/wwwcount
