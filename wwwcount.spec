@@ -73,8 +73,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(664,http,http) /var/lib/wwwcount/*
 %attr(640,root,root) /var/log/wwwcount.log
 %{_libdir}/wwwcount
-
-%changelog
-* Wed Mar 24 1999 Marek Obuchowicz <elephant@pld.org.pl>
-[2.4-1]
-- First release for Polish(ed) Linux Distribution
