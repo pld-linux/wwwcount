@@ -91,11 +91,6 @@ touch $RPM_BUILD_ROOT/var/lib/wwwcount/log/wwwcount-{error,visitor}
 rm -rf %{name}%{version}docs/{dirsync,prehtml,scripts,tmp,README,gzip.arc,mkarc.sh}
 rm -rf %{name}%{version}docs/Count%{version}/download
 
-#for a in `find -type f`
-#do
-#%	%{__perl} -pi -e 's@/usr/local/bin/perl@/usr/bin/perl@' $a
-#done
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
