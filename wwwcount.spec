@@ -7,7 +7,7 @@ Group:		Networking/Utilities
 Group(pl):	Sieciowe/Narzêdzia
 Copyright:	GPL
 Requires:	httpd
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Source0:	wwwcount-%{version}.tar.gz
 Source1:	wwwcount.cfg
 Patch:		wwwcount-pld.patch
@@ -31,7 +31,6 @@ twoj± stronê. Mo¿esz u¿ywaæ tak¿e swoich unikalnych czcionek.
 CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
   ./configure %{_target_platform} --prefix=/usr
 make
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
