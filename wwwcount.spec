@@ -6,7 +6,7 @@ Summary:	WWW Hit Access Counter
 Summary(pl):	Licznik dostepu do strony WWW
 Name:		wwwcount
 Version:	2.6
-Release:	1
+Release:	2
 Group:		Networking/Utilities
 Group(de):	Netzwerkwesen/Werkzeuge
 Group(pl):	Sieciowe/Narzêdzia
@@ -37,7 +37,9 @@ Mo¿esz u¿ywaæ tak¿e swoich unikalnych czcionek.
 tar xzf %{SOURCE1}
 
 %build
-%configure \
+#aclocal
+#autoconf
+%configure2_13 \
 	%{?_without_database:--without-database}
 
 ./Count-config
