@@ -1,0 +1,3 @@
+/var/log/httpd/wwwcount {
+    olddir /var/log/archive/httpd
+}
