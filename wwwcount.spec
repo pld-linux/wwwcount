@@ -46,7 +46,7 @@ install $RPM_SOURCE_DIR/wwwcount.cfg $RPM_BUILD_ROOT/etc
 install wcount/data/* $RPM_BUILD_ROOT/var/lib/wwwcount
 install wcount/rgb.txt $RPM_BUILD_ROOT%{_libdir}/wwwcount
 
-INSTALL %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
 
 for FONT in A B C D E; do
   install wcount/digits/$FONT/* $RPM_BUILD_ROOT%{_libdir}/wwwcount/digits/$FONT
