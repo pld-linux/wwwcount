@@ -37,12 +37,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		cgidir		%{httpdir}/cgi-bin
 
 %description
-wwwcount is a cgi script for apache (and other http daemons), which
+wwwcount is a cgi script for apache (and other HTTP daemons), which
 prododuces nice picture with number of people visited your website.
 You can use your custom fonts with wwwcount.
 
 %description -l pl
-wwwcount jest skryptem cgi do apache (i innych serwerów http), który
+wwwcount jest skryptem cgi do apache (i innych serwerów HTTP), który
 generuje piêkny obrazek z ilo¶ci± osób które odwiedzi³y twoj± stronê.
 Mo¿esz u¿ywaæ tak¿e swoich unikalnych czcionek.
 
