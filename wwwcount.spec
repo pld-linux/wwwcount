@@ -6,7 +6,7 @@ Summary:	WWW Hit Access Counter
 Summary(pl):	Licznik dostepu do strony WWW
 Name:		wwwcount
 Version:	2.6
-Release:	4
+Release:	5
 Epoch:		1
 Group:		Networking/Utilities
 License:	BSD-like
@@ -94,7 +94,6 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/wwwcount.cfg
 %attr(775,root,http) %dir /var/lib/wwwcount
 %attr(775,root,http) %dir /var/lib/wwwcount/log
-%attr(775,root,http) %dir /var/lib/wwwcount/log/archiv
 %{?bconf_off_database:%attr(775,root,http) %dir /var/lib/wwwcount/data}
 %{!?bconf_off_database:%attr(775,root,http) %dir /var/lib/wwwcount/db}
 %{?_without_database:%attr(664,root,http) %config(noreplace) %verify(not size mtime md5) /var/lib/wwwcount/data/*}
