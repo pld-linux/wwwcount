@@ -29,7 +29,7 @@ twoj± stronê. Mo¿esz u¿ywaæ tak¿e swoich unikalnych czcionek.
 %build
 ./Count-config
 CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
-  ./configure %{_target} --prefix=/usr
+  ./configure %{_target_platform} --prefix=/usr
 make
 
 
