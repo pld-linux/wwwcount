@@ -1,9 +1,9 @@
 /var/lib/wwwcount/log/wwwcount-error {
-	olddir /var/log/archiv/httpd
+	olddir /var/lib/wwwcount/log/archiv
 	create 660 root http
 }
 
 /var/lib/wwwcount/log/wwwcount-visitor {
-	olddir /var/log/archiv/httpd
+	olddir /var/lib/wwwcount/log/archiv
 	create 660 root http
 }
