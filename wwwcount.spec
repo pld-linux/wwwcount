@@ -71,8 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc docs/*
 %attr(755,root,root) /home/httpd/cgi-bin/wwwcount.cgi
 %config /etc/wwwcount.cfg
-%attr(775,http,http) %dir /var/lib/wwwcount
-%attr(664,http,http) /var/lib/wwwcount/*
+%attr(775,root,http) %dir /var/lib/wwwcount
+%attr(664,root,http) /var/lib/wwwcount/*
 %attr(640,root,root) /var/log/httpd/wwwcount
 %attr(640,root,root) %config(noreplace) /etc/logrotate.d/*
 %{_libdir}/wwwcount
