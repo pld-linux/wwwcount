@@ -1,0 +1,663 @@
+diff -Nur wwwcount-2.4-orig/Count-config wwwcount-2.4/Count-config
+--- wwwcount-2.4-orig/Count-config	Sun Apr 26 21:23:43 1998
++++ wwwcount-2.4/Count-config	Wed Mar 24 10:19:28 1999
+@@ -20,7 +20,7 @@
+ trap 'echo '';echo "Interrupt Detected..exiting";rm -f "./Config.tmpl" 2>/dev/null;rm -f "./.alfcf" ;rm -f "./strict" 2>/dev/null;echo '';exit 1' 1 2 3 15
+ 
+ Tmpl="./Config.tmpl"
+-CgiBinDir="/usr/local/etc/httpd/cgi-bin"
++CgiBinDir="/home/httpd/cgi-bin"
+ 
+ if [ ! -f "./VERSION" ] 
+ then
+@@ -35,16 +35,16 @@
+ 
+ AUTHOR="ma_muquit@fccc.edu"
+ Version=`cat ./VERSION`
+-Basedir="wwwcount$Version"
++Basedir="wwwcount-$Version"
+ ConfigH="src/config.h"
+-BaseDir="/usr/local/etc/Counter"
+-ConfigDir="$BaseDir/conf"
+-ConfFile="count.cfg"
++BaseDir="/usr/lib/wwwcount"
++ConfigDir="/etc"
++ConfFile="wwwcount.cfg"
+ DigitDir="$BaseDir/digits"
+-DataDir="$BaseDir/data"
+-LogDir="$BaseDir/logs"
+-LogFile="Count$Version.log"
+-RgbFile="./wcount/rgb.txt"
++DataDir="/var/lib/wwwcount"
++LogDir="/var/log"
++LogFile="wwwcount.log"
++RgbFile="./rgb.txt"
+ 
+ #
+ # from php/fis install script
+@@ -89,118 +89,118 @@
+ ##
+ # initial screeen
+ ###
+-cat << EOSI
+-    Welcome to the configuration procedure of Count $Version
+-    ---------------------------------------------------
+-
+-    o You must know where your system keeps CGI programs (cgi-bin directory)
+-      It is necessary to generate the install program.
+-      This directory must exist. If this directory does not exist, the
+-      configuration procedure will Abort!
+-
+-    o You have to decide a directory, where you will keep all counter related
+-      stuff. This directory will have other directories inside. Default
+-      values will be supplied, press Return key to accept the default value.
+-      
+-      Try to Accept the default value, it will make your life much easier, 
+-      because not much error checking is done to verify input.
+-
+-    During installation, the directories will be created for you
+-    if they do not exist and if you have the permission to do so.
+-    ++
+-EOSI
++#cat << EOSI
++#    Welcome to the configuration procedure of Count $Version
++#    ---------------------------------------------------
++#
++#    o You must know where your system keeps CGI programs (cgi-bin directory)
++#      It is necessary to generate the install program.
++#      This directory must exist. If this directory does not exist, the
++#      configuration procedure will Abort!
++#
++#    o You have to decide a directory, where you will keep all counter related
++#      stuff. This directory will have other directories inside. Default
++#      values will be supplied, press Return key to accept the default value.
++#      
++#      Try to Accept the default value, it will make your life much easier, 
++#      because not much error checking is done to verify input.
++#
++#    During installation, the directories will be created for you
++#    if they do not exist and if you have the permission to do so.
++#    ++
++#EOSI
+ 
+ 
+ ###
+-echo $n "Continue [y|n]$c? "
+-read answer
+-
+-if [ .$answer = . ]
+-then
+-    answer=x
+-fi
+-    until [ $answer = "y" -o $answer = "Y" -o $answer = "n" -o $answer = "N" ]
+-    do
+-        echo $n "Continue [y|n]$c? "
+-        read answer
+-            if [ .$answer = . ]
+-            then
+-                answer=x
+-            fi
+-    done
+-
+-    case $answer in
+-        y|Y)
++#echo $n "Continue [y|n]$c? "
++#read answer
++#
++#if [ .$answer = . ]
++#then
++#    answer=x
++#fi
++#    until [ $answer = "y" -o $answer = "Y" -o $answer = "n" -o $answer = "N" ]
++#    do
++#        echo $n "Continue [y|n]$c? "
++#        read answer
++#            if [ .$answer = . ]
++#            then
++#                answer=x
++#            fi
++#    done
++#
++#    case $answer in
++#        y|Y)
+ ####################
+ # Ask for cgi-bin     --starts
+ ###
+-cat <<EOB
+-
+-    You need to enter the full path of the directory where you system
+-    keeps the CGI programs. This directory must exist!
+-
+-EOB
++#cat <<EOB
++#
++#    You need to enter the full path of the directory where you system
++#    keeps the CGI programs. This directory must exist!
++#
++#EOB
+ # it used to be dierctory as you see :)
+ # thanks to ashley@photocraftlab.com (miss picky :)
+ #echo $n "*cgi-bin dierctory [$CgiBinDir]:$c "
+-
+-echo $n "*cgi-bin directory [$CgiBinDir]:$c "
+-read newpath
+-if [ .$newpath != . ]
+-then
+-    CgiBinDir=$newpath
+-fi
++#
++#echo $n "*cgi-bin directory [$CgiBinDir]:$c "
++#read newpath
++#if [ .$newpath != . ]
++#then
++#    CgiBinDir=$newpath
++#fi
+ # check if the directory exist
+-if [ ! -d $CgiBinDir ]
+-then
+-cat <<EOCG  
+-
+-    Directory "$CgiBinDir" does not exist! If you do not know where your
+-    system keeps CGI programs, find it out first. If you did not configure
+-    your http server yet, please do so and come back!
+-
+-    Aborting configuration procedure!
+-
+-EOCG
+-    exit 2
+-fi
+-
++#if [ ! -d $CgiBinDir ]
++#then
++#cat <<EOCG  
++#
++#    Directory "$CgiBinDir" does not exist! If you do not know where your
++#    system keeps CGI programs, find it out first. If you did not configure
++#    your http server yet, please do so and come back!
++#
++#    Aborting configuration procedure!
++#
++#EOCG
++#    exit 2
++#fi
++#
+ ####################
+ # Ask for cgi-bin     --ends
+ ###
+ ####################
+ # Ask for basedir     --starts
+ ###
+-cat <<EOB
+-
+-    You need to enter the base directory of the counter related stuff.
+-    It must be a absolute path.
+-
+-EOB
+-echo $n "*Base directory [$BaseDir]:$c "
+-read newpath
+-if [ .$newpath != . ]
+-then
+-    BaseDir=$newpath
+-    ConfigDir=$BaseDir/conf
+-    DigitDir=$BaseDir/digits
+-    DataDir=$BaseDir/data
+-    LogDir=$BaseDir/logs
+-fi
++#cat <<EOB
++#
++#    You need to enter the base directory of the counter related stuff.
++#    It must be a absolute path.
++#
++#EOB
++#echo $n "*Base directory [$BaseDir]:$c "
++#read newpath
++#if [ .$newpath != . ]
++#then
++#    BaseDir=$newpath
++#    ConfigDir=$BaseDir/conf
++#    DigitDir=$BaseDir/digits
++#    DataDir=$BaseDir/data
++#    LogDir=$BaseDir/logs
++#fi
+ 
+ #
+ # base directory must start with /
+ #
+-if echo "$BaseDir" | grep -s "^/" >/dev/null 2>&1
+-then
+-    x="ok"
+-else
+-    echo 
+-    echo "Base directory must be a absolute path ...exiting"
+-    echo "please try again"
+-    echo 
+-    exit 0
+-fi
++#if echo "$BaseDir" | grep -s "^/" >/dev/null 2>&1
++#then
++#    x="ok"
++#else
++#    echo 
++#    echo "Base directory must be a absolute path ...exiting"
++#    echo "please try again"
++#    echo 
++#    exit 0
++#fi
+ 
+ ####################
+ # Ask for basedir     --ends
+@@ -208,17 +208,17 @@
+ ####################
+ # Ask for configdir     --starts
+ ###
+-cat <<EOB
+-
+-    You need to enter the name directory of the configuration file.
+-
+-EOB
+-echo $n "* Config directory [$ConfigDir]:$c "
+-read newpath
+-if [ .$newpath != . ]
+-then
+-    ConfigDir=$newpath
+-fi
++#cat <<EOB
++#
++#    You need to enter the name directory of the configuration file.
++#
++#EOB
++#echo $n "* Config directory [$ConfigDir]:$c "
++#read newpath
++#if [ .$newpath != . ]
++#then
++#    ConfigDir=$newpath
++#fi
+ 
+ ####################
+ # Ask for configdir     --ends
+@@ -226,33 +226,33 @@
+ ####################
+ # Ask for configfile     --starts
+ ###
+-cat <<EOB
+-
+-    You need to enter the name of the configuration file. Note, it
+-    is not the path of the file, just the name. No / is allowed in the
+-    name.
+-    This file contains the information about
+-
+-        o if you want to ignore access from certain hosts
+-        o host access authentication
+-
+-    You will create this file later by running the program "Gen_conf".
+-
+-EOB
+-echo $n "* Name of the configuration file [$ConfFile]:$c "
+-read newpath
+-if [ .$newpath != . ]
+-then
+-    ConfFile=$newpath
+-fi
+-if echo "$ConfFile" | grep -s "^/" >/dev/null 2>&1
+-then
+-    echo 
+-    echo "ConfFile name can not have / in it"
+-    echo "exiting.. please try again"
+-    echo 
+-    exit 0
+-fi
++#cat <<EOB
++#
++#    You need to enter the name of the configuration file. Note, it
++#    is not the path of the file, just the name. No / is allowed in the
++#    name.
++#    This file contains the information about
++#
++#        o if you want to ignore access from certain hosts
++#        o host access authentication
++#
++#    You will create this file later by running the program "Gen_conf".
++#
++#EOB
++#echo $n "* Name of the configuration file [$ConfFile]:$c "
++#read newpath
++#if [ .$newpath != . ]
++#then
++#    ConfFile=$newpath
++#fi
++#if echo "$ConfFile" | grep -s "^/" >/dev/null 2>&1
++#then
++#    echo 
++#    echo "ConfFile name can not have / in it"
++#    echo "exiting.. please try again"
++#    echo 
++#    exit 0
++#fi
+ 
+ ####################
+ # Ask for configfile     --end
+@@ -260,17 +260,17 @@
+ ####################
+ # Ask for datadir     --starts
+ ###
+-cat <<EOB
+-              
+-    You need to enter the directory of the counter data file.
+-    
+-EOB
+-echo $n "*Data directory [$DataDir]:$c "
+-read newpath
+-if [ .$newpath != . ]
+-then
+-    DataDir=$newpath
+-fi  
++#cat <<EOB
++#              
++#    You need to enter the directory of the counter data file.
++#    
++#EOB
++#echo $n "*Data directory [$DataDir]:$c "
++#read newpath
++#if [ .$newpath != . ]
++#then
++#    DataDir=$newpath
++#fi  
+ ####################
+ # Ask for datadir     --ends
+ ###
+@@ -283,17 +283,17 @@
+ ####################
+ # Ask for digitdir     --starts
+ ###
+-cat <<EOB   
+-
+-    You need to enter the directory of digits
+-
+-EOB
+-echo $n "*Digits directory [$DigitDir]:$c "
+-read newpath
+-if [ .$newpath != . ]
+-then
+-    DigitDir=$newpath
+-fi
++#cat <<EOB   
++#
++#    You need to enter the directory of digits
++#
++#EOB
++#echo $n "*Digits directory [$DigitDir]:$c "
++#read newpath
++#if [ .$newpath != . ]
++#then
++#    DigitDir=$newpath
++#fi
+ 
+ ####################
+ # Ask for digitdir     --ends
+@@ -302,59 +302,59 @@
+ ####################
+ # Ask for logdir     --starts
+ ###
+-cat <<EOB   
+-
+-    You need to enter the directory of the Log file.
+-
+-EOB
+-echo $n "*Log directory [$LogDir]:$c "
+-read newpath
+-if [ .$newpath != . ]
+-then
+-    LogDir=$newpath
+-fi
++#cat <<EOB   
++#
++#    You need to enter the directory of the Log file.
++#
++#EOB
++#echo $n "*Log directory [$LogDir]:$c "
++#read newpath
++#if [ .$newpath != . ]
++#then
++#    LogDir=$newpath
++#fi
+ ####################
+ # Ask for logdir     --ends
+ ###
+ ####################
+ # Ask for logfile     --starts
+ ###
+-cat <<EOB
+-
+-    You need to enter the name of the Log file. Note, it just a name, not
+-    the path. No / is allowed in the name.
+-    This file hold the error messages of the counter. It also
+-    logs if someone tried to access your counter remotely.
+-
+-EOB
+-echo $n "* Name of the log file [$LogFile]:$c "
+-read newpath
+-if [ .$newpath != . ]
+-then
+-    LogFile=$newpath
+-fi
+-if echo "$LogFile" | grep -s "^/" >/dev/null 2>&1
+-then
+-    echo 
+-    echo "LogFile can not have a / in the name"
+-    echo "exiting.. please try again"
+-    echo 
+-    exit 0
+-fi
++#cat <<EOB
++#
++#    You need to enter the name of the Log file. Note, it just a name, not
++#    the path. No / is allowed in the name.
++#    This file hold the error messages of the counter. It also
++#    logs if someone tried to access your counter remotely.
++#
++#EOB
++#echo $n "* Name of the log file [$LogFile]:$c "
++#read newpath
++#if [ .$newpath != . ]
++#then
++#    LogFile=$newpath
++#fi
++#if echo "$LogFile" | grep -s "^/" >/dev/null 2>&1
++#then
++#    echo 
++#    echo "LogFile can not have a / in the name"
++#    echo "exiting.. please try again"
++#    echo 
++#    exit 0
++#fi
+ 
+ ####################
+ # Ask for logfile     --ends
+ ###
+-        ;;
+-        n|N)
+-            echo "Exiting..Better luck next time!"
+-            exit 1
+-        ;;
+-
+-        *)
+-            echo ""
+-            echo "Illegal choice"
+-     esac
++#        ;;
++#        n|N)
++#            echo "Exiting..Better luck next time!"
++#            exit 1
++#        ;;
++#
++#        *)
++#            echo ""
++#            echo "Illegal choice"
++#     esac
+ 
+ echo ""
+ echo "You entered:"
+@@ -369,26 +369,26 @@
+     echo "LogFile=  $LogFile"
+ echo "++++++++++++++++++++++++++++++"
+ 
+-echo $n "Everything looks OK [y|n]$c? "
+-read answer
+-
+-if [ .$answer = . ]
+-then
+-    answer=x
+-fi
+-    until [ $answer = "y" -o $answer = "Y" -o $answer = "n" -o $answer = "N" ]
+-    do
+-        echo $n "Everything looks ok [y|n]$c? "
+-        read answer
+-            if [ .$answer = . ]
+-            then
+-                answer=x
+-            fi
+-    done
+-
+-    case $answer in
+-        y|Y)
+-        echo "Great! creating header file $ConfigH"
++#echo $n "Everything looks OK [y|n]$c? "
++#read answer
++#
++#if [ .$answer = . ]
++#then
++#    answer=x
++#fi
++#    until [ $answer = "y" -o $answer = "Y" -o $answer = "n" -o $answer = "N" ]
++#    do
++#        echo $n "Everything looks ok [y|n]$c? "
++#        read answer
++#            if [ .$answer = . ]
++#            then
++#                answer=x
++#            fi
++#    done
++#
++#    case $answer in
++#        y|Y)
++#        echo "Great! creating header file $ConfigH"
+ ###
+ # create header file --starts
+ ###
+@@ -541,20 +541,20 @@
+ echo "DIGIT_DIR=\"$DigitDir\"" >> $Tmpl
+ echo "DATA_DIR=\"$DataDir\"" >> $Tmpl
+ echo "LOG_DIR=\"$LogDir\"" >> $Tmpl
+-echo "LOG_FILE=\"$LogFile\"" >> $Tmpl
++echo "LOG_FILE=\"$LogDir/$LogFile\"" >> $Tmpl
+ echo "RGB_FILE=\"$RgbFile\"" >> $Tmpl
+ echo "RGB_DIR=\"$BaseDir\"" >> $Tmpl
+ ##
+ # create template for install program --ends
+ ##
+-echo "now run ./configure"
+-        ;;
+-        n|N)
+-            echo "Exiting..Better luck next time!"
+-        ;;
+-
+-        *)
+-            echo ""
+-            echo "Illegal choice"
+-     esac
++#echo "now run ./configure"
++#        ;;
++#        n|N)
++#            echo "Exiting..Better luck next time!"
++#        ;;
++#
++#        *)
++#            echo ""
++#            echo "Illegal choice"
++#     esac
+ # End of configuration script
+diff -Nur wwwcount-2.4-orig/Count-install wwwcount-2.4/Count-install
+--- wwwcount-2.4-orig/Count-install	Sat May  9 14:53:02 1998
++++ wwwcount-2.4/Count-install	Wed Mar 24 10:19:28 1999
+@@ -13,7 +13,7 @@
+ # Nov 24, 1995
+ ##
+ ver=`cat ./VERSION`
+-Basedir="wwwcount$ver"
++Basedir="wwwcount-$ver"
+ INSTALL_PROG="./install-sh"
+ Tmpl="./Config.tmpl"
+ Binary="./src/Count.cgi"
+@@ -55,7 +55,7 @@
+ then
+ cat<<EOT
+     
+-    The varaible template file "$Tmpl" does not exist! This file
++    The variable template file "$Tmpl" does not exist! This file
+     is created in the configuration procedure. Apparently your 
+     configuration procedure did not succeed!
+ 
+@@ -113,7 +113,7 @@
+ 
+ cat <<EOC
+ 
+-    The configuration file $CONFIG_FILR is not created!
++    The configuration file $CONFIG_FILE is not created!
+     please create it first by running the script ./Gen-conf
+ 
+     Aborting installation!
+diff -Nur wwwcount-2.4-orig/config.log wwwcount-2.4/config.log
+--- wwwcount-2.4-orig/config.log	Thu Jan  1 01:00:00 1970
++++ wwwcount-2.4/config.log	Wed Mar 24 10:19:28 1999
+@@ -0,0 +1,3 @@
++This file contains any messages produced by compilers while
++running configure, to aid debugging if configure makes a mistake.
++
+diff -Nur wwwcount-2.4-orig/libs/bigplus/Makefile.in wwwcount-2.4/libs/bigplus/Makefile.in
+--- wwwcount-2.4-orig/libs/bigplus/Makefile.in	Mon Nov 24 02:49:53 1997
++++ wwwcount-2.4/libs/bigplus/Makefile.in	Wed Mar 24 10:21:47 1999
+@@ -16,7 +16,7 @@
+ # replace -O with -g in order to debug
+ 
+ DEFINES= $(INCLUDES) $(DEFS) -DSYS_UNIX=1
+-CFLAGS= -O $(DEFINES)
++CFLAGS+= $(DEFINES)
+ 
+ SRCS = bigplus.c
+ OBJS = bigplus.o
+diff -Nur wwwcount-2.4-orig/libs/combine/Makefile.in wwwcount-2.4/libs/combine/Makefile.in
+--- wwwcount-2.4-orig/libs/combine/Makefile.in	Mon Nov 24 02:49:51 1997
++++ wwwcount-2.4/libs/combine/Makefile.in	Wed Mar 24 10:21:55 1999
+@@ -16,7 +16,7 @@
+ # replace -O with -g in order to debug
+ 
+ DEFINES= $(INCLUDES) $(DEFS) -D__USE_FIXED_PROTOTYPES__ -DSYS_UNIX=1
+-CFLAGS= -O $(DEFINES)
++CFLAGS+= $(DEFINES)
+ 
+ SRCS = crbasei.c allocim.c readgif.c rddata.c dstraimg.c\
+        readblk.c lzwdec.c syncimg.c duplicim.c writegif.c lsbfwrs.c\
+diff -Nur wwwcount-2.4-orig/src/Makefile.in wwwcount-2.4/src/Makefile.in
+--- wwwcount-2.4-orig/src/Makefile.in	Mon Nov 24 02:49:53 1997
++++ wwwcount-2.4/src/Makefile.in	Wed Mar 24 10:19:56 1999
+@@ -44,7 +44,7 @@
+ 
+ 
+ DEFINES= $(INCLUDES) $(DEFS) $(ACCESS_AUTH) $(COUNT_RELOAD) $(USE_DNS)
+-CFLAGS= -O $(DEFINES) -DSYS_UNIX=1 -DDEBUG=1
++CFLAGS+= $(DEFINES) -DSYS_UNIX=1 -DDEBUG=1
+ 
+ 
+ OBJS= main.o parse.o image.o utils.o rwdata.o llist.o setget.o
+diff -Nur wwwcount-2.4-orig/utils/mkstrip/Makefile.in wwwcount-2.4/utils/mkstrip/Makefile.in
+--- wwwcount-2.4-orig/utils/mkstrip/Makefile.in	Mon Nov 24 02:49:51 1997
++++ wwwcount-2.4/utils/mkstrip/Makefile.in	Wed Mar 24 10:22:08 1999
+@@ -11,7 +11,7 @@
+ CC= @CC@
+ DEFS= @DEFS@
+ DEFINES= $(INCLUDES) $(DEFS) -D__USE_FIXED_PROTOTYPES_
+-CFLAGS= -O $(DEFINES) 
++CFLAGS+= $(DEFINES) 
+ 
+ BINARY=mkstrip
+ LIBS= ../../libs/combine/libCombine.a
