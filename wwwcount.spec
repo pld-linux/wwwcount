@@ -12,7 +12,9 @@ Epoch:		1
 Group:		Networking/Utilities
 License:	BSD-like
 Source0:	http://www.muquit.com/muquit/software/Count/Count2.6/download/src/%{name}%{version}.tar.gz
+# Source0-md5:	4206b4007a36cc5c8cf415841e49f1f6
 Source1:	http://www.muquit.com/muquit/software/Count/Count2.6/download/docs/%{name}%{version}docs.tar.gz
+# Source1-md5:	4206b4007a36cc5c8cf415841e49f1f6
 Source2:	%{name}.cfg
 Source3:	%{name}.logrotate
 Patch0:		%{name}-pld.patch
