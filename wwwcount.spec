@@ -80,7 +80,7 @@ cat $TMPFILE | sed "s/%HOSTNAME%/`hostname -f`/g" | \
   sed "s/%DOMAINNAME%/`hostname -d`/g" | \
   sed "s/%IPNAME%/`hostname -i`/g" > /etc/wwwcount.cfg
 chmod 644 /etc/wwwcount.cfg
-rm -f $TMPFILE  
+rm -f $TMPFILE
 
 %clean
 rm -rf $RPM_BUILD_ROOT
