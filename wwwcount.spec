@@ -19,12 +19,14 @@ Source2:	%{name}.cfg
 Source3:	%{name}.logrotate
 Patch0:		%{name}-pld.patch
 Patch1:		%{name}-errno.patch
+Patch2:		%{name}-db41.patch
 URL:		http://www.muquit.com/muquit/software/Count/Count2.6/Count.html
 BuildRequires:	automake
 %if %{with database}
 %{?with_db3:BuildRequires:	db3-devel}
 %{!?with_db3:BuildRequires:	db-devel}
 %endif
+BuildRequires:	freetype1-devel
 Requires(post):	/bin/hostname
 Requires(post):	fileutils
 Requires(post):	sed
@@ -48,14 +50,16 @@ Mo¿esz u¿ywaæ tak¿e swoich unikalnych czcionek.
 %setup -q -n %{name}%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 tar xzf %{SOURCE1}
+
+%{__perl} -pi -e 's@#!/usr/local/bin/perl@#!/usr/bin/perl@' utils/count_admin/count_admin.pl
 
 %build
 cp -f /usr/share/automake/config.* .
 %configure2_13 \
 	%{!?with_database:--without-database}
 
-./Count-config
 ./build --all
 
 %install
@@ -65,8 +69,8 @@ install -d $RPM_BUILD_ROOT{/etc/logrotate.d,%{cgidir}} \
 	$RPM_BUILD_ROOT{%{_libdir}/wwwcount,%{_bindir}}
 
 install bin/Count.cgi $RPM_BUILD_ROOT%{cgidir}/wwwcount.cgi
-%{?with_database:install bin/count_admin.cgi $RPM_BUILD_ROOT%{cgidir}/wwwcount_admin.cgi}
-%{?with_database:install bin/count_admin_help.cgi $RPM_BUILD_ROOT%{cgidir}/wwwcount_admin_help.cgi}
+%{?with_database:install bin/count_admin.pl $RPM_BUILD_ROOT%{cgidir}/wwwcount_admin.cgi}
+%{?with_database:install bin/count_admin_help.pl $RPM_BUILD_ROOT%{cgidir}/wwwcount_admin_help.cgi}
 install bin/{extdgts,mkstrip,mwhich} $RPM_BUILD_ROOT%{_bindir}
 %{?with_database:install bin/{editdb,dumpdb,rgbtxt2db} $RPM_BUILD_ROOT%{_bindir}}
 install data/data/* $RPM_BUILD_ROOT/var/lib/wwwcount/data
