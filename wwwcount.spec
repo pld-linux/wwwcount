@@ -4,10 +4,10 @@
 %bcond_with	db3		# use db3 instead of db package
 #
 Summary:	WWW Hit Access Counter
-Summary(pl):	Licznik dostepu do strony WWW
+Summary(pl):	Licznik dostêpu do strony WWW
 Name:		wwwcount
 Version:	2.6
-Release:	7
+Release:	8
 Epoch:		1
 Group:		Networking/Utilities
 License:	BSD-like
@@ -53,7 +53,11 @@ Mo¿esz u¿ywaæ tak¿e swoich unikalnych czcionek.
 %patch2 -p1
 tar xzf %{SOURCE1}
 
-%{__perl} -pi -e 's@#!/usr/local/bin/perl@#!/usr/bin/perl@' utils/count_admin/count_admin.pl
+for a in `find -type f -name "*.pl*"`
+do
+	%{__perl} -pi -e 's@/usr/local/bin/perl@/usr/bin/perl@' $a
+	%{__perl} -pi -e 's@c:\perl\bin\perl@/usr/bin/perl@' $a
+done
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -86,6 +90,11 @@ touch $RPM_BUILD_ROOT/var/lib/wwwcount/log/wwwcount-{error,visitor}
 
 rm -rf %{name}%{version}docs/{dirsync,prehtml,scripts,tmp,README,gzip.arc,mkarc.sh}
 rm -rf %{name}%{version}docs/Count%{version}/download
+
+#for a in `find -type f`
+#do
+#%	%{__perl} -pi -e 's@/usr/local/bin/perl@/usr/bin/perl@' $a
+#done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
