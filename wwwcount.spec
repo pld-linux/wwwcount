@@ -7,7 +7,7 @@ Group:		Networking/Utilities
 Group(pl):	Sieciowe/Narzêdzia
 Copyright:	GPL
 Requires:	httpd
-BuildRoot:   	/tmp/buildroot-%{name}-%{version}
+BuildRoot:	/tmp/%{name}-%{version}-root
 Source0:	wwwcount-%{version}.tar.gz
 Source1:	wwwcount.cfg
 Patch:		wwwcount-pld.patch
