@@ -2,7 +2,7 @@ Summary:	WWW Hit Access Counter
 Summary(pl):	Licznik dostepu do strony WWW
 Name:		wwwcount
 Version:	2.4
-Release:	2
+Release:	3
 Group:		Networking/Utilities
 Group(pl):	Sieciowe/Narzêdzia
 Copyright:	GPL
@@ -37,7 +37,7 @@ rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT/etc
 install -d $RPM_BUILD_ROOT/home/httpd/cgi-bin
-install -d $RPM_BUILD_ROOT/var/{log,lib/wwwcount}
+install -d $RPM_BUILD_ROOT/var/{log/httpd,lib/wwwcount}
 install -d $RPM_BUILD_ROOT%{_libdir}/wwwcount/digits/{A,B,C,D,E}
 
 install src/Count.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/wwwcount.cgi
@@ -49,7 +49,7 @@ for FONT in A B C D E; do
   install wcount/digits/$FONT/* $RPM_BUILD_ROOT%{_libdir}/wwwcount/digits/$FONT
 done
 
-touch $RPM_BUILD_ROOT/var/log/wwwcount.log
+touch $RPM_BUILD_ROOT/var/log/httpd/wwwcount
 
 %post
 TMPFILE=`mktemp /tmp/wwwcount-XXXXXX`
@@ -70,5 +70,5 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/wwwcount.cfg
 %attr(775,http,http) %dir /var/lib/wwwcount
 %attr(664,http,http) /var/lib/wwwcount/*
-%attr(640,root,root) /var/log/wwwcount.log
+%attr(640,root,root) /var/log/httpd/wwwcount
 %{_libdir}/wwwcount
