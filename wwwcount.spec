@@ -46,13 +46,13 @@ tar xzf %{SOURCE1}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/logrotate.d,/home/httpd/cgi-bin} \
+install -d $RPM_BUILD_ROOT{/etc/logrotate.d,/home/services/httpd/cgi-bin} \
 	$RPM_BUILD_ROOT/var/{log/httpd,lib/wwwcount/{data,db,log/archiv}} \
 	$RPM_BUILD_ROOT{%{_libdir}/wwwcount,%{_bindir}}
 
-install bin/Count.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/wwwcount.cgi
-%{!?_without_database:install bin/count_admin.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/wwwcount_admin.cgi}
-%{!?_without_database:install bin/count_admin_help.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/wwwcount_admin_help.cgi}
+install bin/Count.cgi $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/wwwcount.cgi
+%{!?_without_database:install bin/count_admin.cgi %$RPM_BUILD_ROOT/home/services/httpd/cgi-bin/wwwcount_admin.cgi}
+%{!?_without_database:install bin/count_admin_help.cgi $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/wwwcount_admin_help.cgi}
 install bin/{extdgts,mkstrip,mwhich} $RPM_BUILD_ROOT%{_bindir}
 %{!?_without_database:install bin/{editdb,dumpdb,rgbtxt2db} $RPM_BUILD_ROOT%{_bindir}}
 install data/data/* $RPM_BUILD_ROOT/var/lib/wwwcount/data
@@ -85,8 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README TODO %{name}%{version}docs/*
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) /home/httpd/cgi-bin/wwwcount.cgi
-%{!?_without_database: %attr(755,root,root) /home/httpd/cgi-bin/wwwcount_*.cgi}
+%attr(755,root,root) /home/services/httpd/cgi-bin/wwwcount.cgi
+%{!?_without_database: %attr(755,root,root) /home/services/httpd/cgi-bin/wwwcount_*.cgi}
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/wwwcount.cfg
 %attr(775,root,http) %dir /var/lib/wwwcount
 %attr(775,root,http) %dir /var/lib/wwwcount/log

@@ -6,7 +6,7 @@ diff -Nur wwwcount2.6.orig/Count-config wwwcount2.6/Count-config
  
  Tmpl="./Config.tmpl"
 -CgiBinDir="/usr/local/apache/cgi-bin"
-+CgiBinDir="/home/httpd/cgi-bin"
++CgiBinDir="/home/services/httpd/cgi-bin"
  
  if [ ! -f "./VERSION" ] 
  then
