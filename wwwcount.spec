@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# bcond_off_database - without database support (wwwcount works in old way)
+# _without_database - without database support (wwwcount works in old way)
 #
 Summary:	WWW Hit Access Counter
 Summary(pl):	Licznik dostepu do strony WWW
@@ -18,7 +18,7 @@ Source3:	%{name}.logrotate
 Patch0:		%{name}-pld.patch
 URL:		http://www.muquit.com/muquit/software/Count/Count2.6/Count.html
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-%{!?bcond_off_database:BuildRequires:	db3-devel}
+%{!?_without_database:BuildRequires:	db3-devel}
 Requires:	httpd
 
 %description
@@ -38,7 +38,7 @@ tar xzf %{SOURCE1}
 
 %build
 %configure \
-	%{?bcond_off_database:--without-database}
+	%{?_without_database:--without-database}
 
 ./Count-config
 ./build --all
@@ -53,10 +53,10 @@ install -d $RPM_BUILD_ROOT%{_libdir}/wwwcount
 install -d $RPM_BUILD_ROOT%{_bindir}
 
 install bin/Count.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/wwwcount.cgi
-%{!?bcond_off_database:install bin/count_admin.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/wwwcount_admin.cgi}
-%{!?bcond_off_database:install bin/count_admin_help.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/wwwcount_admin_help.cgi}
+%{!?_without_database:install bin/count_admin.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/wwwcount_admin.cgi}
+%{!?_without_database:install bin/count_admin_help.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/wwwcount_admin_help.cgi}
 install bin/{extdgts,mkstrip,mwhich} $RPM_BUILD_ROOT%{_bindir}
-%{!?bcond_off_database:install bin/{editdb,dumpdb,rgbtxt2db} $RPM_BUILD_ROOT%{_bindir}}
+%{!?_without_database:install bin/{editdb,dumpdb,rgbtxt2db} $RPM_BUILD_ROOT%{_bindir}}
 install data/data/* $RPM_BUILD_ROOT/var/lib/wwwcount/data
 install data/rgb.txt $RPM_BUILD_ROOT%{_libdir}/wwwcount
 
@@ -89,13 +89,13 @@ rm -rf $RPM_BUILD_ROOT
 %doc *.gz %{name}%{version}docs/*
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) /home/httpd/cgi-bin/wwwcount.cgi
-%{!?bcond_off_database: %attr(755,root,root) /home/httpd/cgi-bin/wwwcount_*.cgi}
+%{!?_without_database: %attr(755,root,root) /home/httpd/cgi-bin/wwwcount_*.cgi}
 %config %{_sysconfdir}/wwwcount.cfg
 %attr(775,root,http) %dir /var/lib/wwwcount
 %attr(775,root,http) %dir /var/lib/wwwcount/log
 %{?bconf_off_database:%attr(775,root,http) %dir /var/lib/wwwcount/data}
 %{!?bconf_off_database:%attr(775,root,http) %dir /var/lib/wwwcount/db}
-%{?bcond_off_database:%attr(664,root,http) /var/lib/wwwcount/data/*}
+%{?_without_database:%attr(664,root,http) /var/lib/wwwcount/data/*}
 %attr(664,root,http) %config(noreplace) /var/lib/wwwcount/log/*
 %attr(640,root,root) %config(noreplace) /etc/logrotate.d/*
 %{_libdir}/wwwcount
