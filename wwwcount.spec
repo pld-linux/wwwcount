@@ -39,15 +39,15 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc
 install -d $RPM_BUILD_ROOT/home/httpd/cgi-bin
 install -d $RPM_BUILD_ROOT/var/{log,lib/wwwcount}
-install -d $RPM_BUILD_ROOT/usr/lib/wwwcount/digits/{A,B,C,D,E}
+install -d $RPM_BUILD_ROOT%{_libdir}/wwwcount/digits/{A,B,C,D,E}
 
 install src/Count.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/wwwcount.cgi
 install $RPM_SOURCE_DIR/wwwcount.cfg $RPM_BUILD_ROOT/etc
 install wcount/data/* $RPM_BUILD_ROOT/var/lib/wwwcount
-install wcount/rgb.txt $RPM_BUILD_ROOT/usr/lib/wwwcount
+install wcount/rgb.txt $RPM_BUILD_ROOT%{_libdir}/wwwcount
 
 for FONT in A B C D E; do
-  install wcount/digits/$FONT/* $RPM_BUILD_ROOT/usr/lib/wwwcount/digits/$FONT
+  install wcount/digits/$FONT/* $RPM_BUILD_ROOT%{_libdir}/wwwcount/digits/$FONT
 done
 
 touch $RPM_BUILD_ROOT/var/log/wwwcount.log
@@ -72,7 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644,http,http,775) %dir /var/lib/wwwcount
 %attr(664,http,http) /var/lib/wwwcount/*
 %attr(640,root,root) /var/log/wwwcount.log
-/usr/lib/wwwcount
+%{_libdir}/wwwcount
 
 %changelog
 * Wed Mar 24 1999 Marek Obuchowicz <elephant@pld.org.pl>
