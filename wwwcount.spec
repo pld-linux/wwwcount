@@ -69,7 +69,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) /home/httpd/cgi-bin/wwwcount.cgi
 %config /etc/wwwcount.cfg
-%attr(644,http,http,775) %dir /var/lib/wwwcount
+%attr(775,http,http) %dir /var/lib/wwwcount
 %attr(664,http,http) /var/lib/wwwcount/*
 %attr(640,root,root) /var/log/wwwcount.log
 %{_libdir}/wwwcount
