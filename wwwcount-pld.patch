@@ -33,12 +33,12 @@ diff -Nur wwwcount2.6.orig/Count-config wwwcount2.6/Count-config
 -DataDir="$BaseDir/data"
 -LogDir="$BaseDir/logs"
 +DataDir="/var/lib/wwwcount/data"
-+LogDir="/var/log"
++LogDir="/var/lib/wwwcount/log"
  ext=`echo $Version | sed 's/\./_/g'`
 -LogFile="error.log"
 -Visitor_LogFile="visitor.log"
-+LogFile="wwwcount-error.log"
-+Visitor_LogFile="wwwcount-visitor.log"
++LogFile="wwwcount-error"
++Visitor_LogFile="wwwcount-visitor"
  RgbFile="./data/rgb.txt"
  
  
