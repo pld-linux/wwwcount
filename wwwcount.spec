@@ -6,12 +6,23 @@ Summary:	WWW Hit Access Counter
 Summary(pl):	Licznik dostepu do strony WWW
 Name:		wwwcount
 Version:	2.6
-Release:	2
+Release:	3
 Group:		Networking/Utilities
-Group(de):	Netzwerkwesen/Werkzeuge
+Group(cs):	SÌªovÈ/Utility
+Group(da):	NetvÊrks/VÊrkt¯j
+Group(de):	Netzwerkwesen/Dienstprogramme
 Group(es):	Red/Utilitarios
+Group(fr):	RÈseau/Utilitaires
+Group(is):	Net/TÛl
+Group(it):	Rete/Utility
+Group(no):	Nettverks/Verkt¯y
 Group(pl):	Sieciowe/NarzÍdzia
 Group(pt_BR):	Rede/Utilit·rios
+Group(pt):	Rede/Utilidades
+Group(ru):	Û≈‘ÿ/ı‘…Ã…‘Ÿ
+Group(sl):	Omreæni/PripomoËki
+Group(sv):	N‰tverk/Verktyg
+Group(uk):	Ì≈“≈÷¡/ı‘…Ã¶‘…
 License:	BSD-like
 Source0:	http://www.muquit.com/muquit/software/Count/Count2.6/download/src/%{name}%{version}.tar.gz
 Source1:	http://www.muquit.com/muquit/software/Count/Count2.6/download/docs/%{name}%{version}docs.tar.gz
@@ -94,12 +105,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) /home/httpd/cgi-bin/wwwcount.cgi
 %{!?_without_database: %attr(755,root,root) /home/httpd/cgi-bin/wwwcount_*.cgi}
-%config %{_sysconfdir}/wwwcount.cfg
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/wwwcount.cfg
 %attr(775,root,http) %dir /var/lib/wwwcount
 %attr(775,root,http) %dir /var/lib/wwwcount/log
 %{?bconf_off_database:%attr(775,root,http) %dir /var/lib/wwwcount/data}
 %{!?bconf_off_database:%attr(775,root,http) %dir /var/lib/wwwcount/db}
-%{?_without_database:%attr(664,root,http) /var/lib/wwwcount/data/*}
-%attr(664,root,http) %config(noreplace) /var/lib/wwwcount/log/*
-%attr(640,root,root) %config(noreplace) /etc/logrotate.d/*
+%{?_without_database:%attr(664,root,http) %config(noreplace) %verify(not size mtime md5) /var/lib/wwwcount/data/*}
+%attr(664,root,http) %config(noreplace) %verify(not size mtime md5) /var/lib/wwwcount/log/*
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/*
 %{_libdir}/wwwcount
