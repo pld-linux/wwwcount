@@ -622,3 +622,115 @@ diff -Nur wwwcount2.6.orig/utils/rgbtxt2db/Makefile.in wwwcount2.6/utils/rgbtxt2
  
  SRCS = rgbtxt2db.c
  OBJS = rgbtxt2db.o
+--- wwwcount2.6/libs/mutils/Makefile.in.orig	2001-04-09 01:14:25.000000000 +0200
++++ wwwcount2.6/libs/mutils/Makefile.in	2004-04-09 22:21:35.313171192 +0200
+@@ -14,7 +14,7 @@
+ # replace -O with -g in order to debug
+ 
+ DEFINES= $(INCLUDES) $(DEFS) -DSYS_UNIX=1
+-CFLAGS= -O $(DEFINES)
++CFLAGS= @CFLAGS@ $(DEFINES)
+ 
+ SRCS = string.c mutils.c mmd5.c wildmat.c
+ OBJS = string.o mutils.o mmd5.o wildmat.o
+--- wwwcount2.6/src/config.h.in.orig	2001-10-14 18:46:15.000000000 +0200
++++ wwwcount2.6/src/config.h.in	2004-04-09 22:41:38.858204536 +0200
+@@ -9,16 +9,16 @@
+ **
+ **  If you edit this file, you better make sure you know what your are doing
+ */
+-#define CONFIG_DIR       "@prefix@/conf"
++#define CONFIG_DIR       "@libdir@/wwwcount/conf"
+ #define CONFIG_FILE      "count.cfg"
+-#define DIGIT_DIR        "@prefix@/digits"
+-#define DATA_DIR         "@prefix@/data"
+-#define DATABASE_DIR     "@prefix@/db"
++#define DIGIT_DIR        "@libdir@/wwwcount/digits"
++#define DATA_DIR         "/var/lib/wwwcount/data"
++#define DATABASE_DIR     "/var/lib/wwwcount/db"
+ #define COUNT_DATABASE   "Countdb"
+ #define AUTH_DATABASE    "Authdb"
+ #define DB_LOCKFILE      "Count.lck"
+-#define TT_FONT_DIR      "@prefix@/fonts"
+-#define LOG_DIR          "@prefix@/logs"
++#define TT_FONT_DIR      "@libdir@/wwwcount/fonts"
++#define LOG_DIR          "/var/lib/wwwcount/log"
+ #define ERROR_LOG_FILE   "error.log"
+ #define VISITOR_LOG_FILE "visitor.log"
+ 
+@@ -126,7 +126,7 @@
+ ** so RGB names can be looked up, but yet not allow users to make constant
+ ** use of this very ineffiecient lookup.
+ */
+-#define RGB_MAPPING_DICT            "@prefix@/rgb.txt"
++#define RGB_MAPPING_DICT            "@libdir@/wwwcount/rgb.txt"
+ 
+ /*
+ ** if a database is created from rgb.txt file using the supplied
+@@ -135,7 +135,7 @@
+ ** will try to use the database first. If it fails, then it will try
+ ** to use the rgb.txt file
+ */
+-#define RGB_DATABASE                "@prefix@/db/rgbdb"
++#define RGB_DATABASE                "/var/lib/wwwcount/db/rgbdb"
+ 
+ 
+ /* End of parameter defaults */
+--- wwwcount2.6/Count-install.orig	2001-04-11 05:02:29.000000000 +0200
++++ wwwcount2.6/Count-install	2004-04-09 22:21:35.307172104 +0200
+@@ -14,7 +14,7 @@
+ # Nov 24, 1995
+ ##
+ ver=`cat ./VERSION`
+-Basedir="wwwcount$ver"
++Basedir="wwwcount-$ver"
+ INSTALL_PROG="./install-sh"
+ Tmpl="./Config.tmpl"
+ Binary="./bin/Count.cgi"
+@@ -75,7 +75,7 @@
+ then
+ cat<<EOT
+     
+-    The varaible template file "$Tmpl" does not exist! This file
++    The variable template file "$Tmpl" does not exist! This file
+     is created in the configuration procedure. Apparently your 
+     configuration procedure did not succeed!
+ 
+@@ -133,7 +133,7 @@
+ 
+ cat <<EOC
+ 
+-    The configuration file $CONFIG_FILR is not created!
++    The configuration file $CONFIG_FILE is not created!
+     please create it first by running the script ./Gen-conf
+ 
+     Aborting installation!
+--- wwwcount2.6/Config.tmpl.in.orig	2001-02-25 20:22:23.000000000 +0100
++++ wwwcount2.6/Config.tmpl.in	2004-04-09 22:39:45.200483136 +0200
+@@ -1,17 +1,17 @@
+ CGIBIN_DIR="@cgi_bin_dir@"
+-BASE_DIR="@prefix@"
++BASE_DIR="@libdir@/wwwcount"
+ CONFIG_FILE="count.cfg"
+-CONFIG_DIR="@prefix@/conf"
+-DIGIT_DIR="@prefix@/digits"
+-DATA_DIR="@prefix@/data"
+-DATABASE_DIR="@prefix@/db"
++CONFIG_DIR="@sysconfdir@"
++DIGIT_DIR="@libdir@/wwwcount/digits"
++DATA_DIR="@libdir@/wwwcount/data"
++DATABASE_DIR="/var/lib/wwwcount/db"
+ COUNT_DATABASE="Countdb"
+ AUTH_DATABASE="Authdb"
+ DB_LOCKFILE="Count.lck"
+-TT_FONT_DIR="@prefix@/fonts"
+-LOG_DIR="@prefix@/logs"
++TT_FONT_DIR="@libdir@/wwwcount/fonts"
++LOG_DIR="/var/lib/wwwcount/log"
+ ERROR_LOG_FILE="error.log"
+ VISITOR_LOG_FILE="visitor.log"
+ RGB_FILE="./data/rgb.txt"
+-RGB_DIR="@prefix@"
+-RGB_DATABASE="@prefix@/db/rgbdb"
++RGB_DIR="@libdir@/wwwcount"
++RGB_DATABASE="/var/lib/wwwcount/db/rgbdb"
