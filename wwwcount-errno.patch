@@ -1,0 +1,10 @@
+--- wwwcount2.6/libs/ldbm/ldbm.c.orig	1999-08-26 05:22:44.000000000 +0200
++++ wwwcount2.6/libs/ldbm/ldbm.c	2003-12-16 20:00:50.471644672 +0100
+@@ -114,6 +114,7 @@
+ 
+ #else
+ #if defined( LDBM_USE_DBHASH ) || defined( LDBM_USE_DBBTREE )
++#include <errno.h>
+ 
+ /*****************************************************************
+  *                                                               *
