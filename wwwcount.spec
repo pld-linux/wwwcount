@@ -11,15 +11,12 @@ Group:		Networking/Utilities
 Group(de):	Netzwerkwesen/Werkzeuge
 Group(pl):	Sieciowe/Narzêdzia
 License:	BSD-like
-# official - but 404
-#Source0:	http://www.fccc.edu/users/muquit/Count2.6/src/%{name}%{version}.tar.gz
-#Source1:	http://www.fccc.edu/users/muquit/Count2.6/src/%{name}%{version}docs.tar.gz
-# Polish mirror instead
-Source0:	http://counter.cavern.com.pl/Count2.6/Count2.6/download/src/%{name}%{version}.tar.gz
-Source1:	http://counter.cavern.com.pl/Count2.6/Count2.6/download/docs/%{name}%{version}docs.tar.gz
+Source0:	http://www.muquit.com/muquit/software/Count/Count2.6/download/src/%{name}%{version}.tar.gz
+Source1:	http://www.muquit.com/muquit/software/Count/Count2.6/download/docs/%{name}%{version}docs.tar.gz
 Source2:	%{name}.cfg
 Source3:	%{name}.logrotate
 Patch0:		%{name}-pld.patch
+URL:		http://www.muquit.com/muquit/software/Count/Count2.6/Count.html
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %{!?bcond_off_database:BuildRequires:	db3-devel}
 Requires:	httpd
