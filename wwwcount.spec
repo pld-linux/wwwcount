@@ -10,6 +10,7 @@ Requires:	httpd
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Source0:	wwwcount-%{version}.tar.gz
 Source1:	wwwcount.cfg
+Source2:	%{name}.logrotate
 Patch:		wwwcount-pld.patch
 
 %description
@@ -35,7 +36,7 @@ CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/etc
+install -d $RPM_BUILD_ROOT/etc/logrotate.d
 install -d $RPM_BUILD_ROOT/home/httpd/cgi-bin
 install -d $RPM_BUILD_ROOT/var/{log/httpd,lib/wwwcount}
 install -d $RPM_BUILD_ROOT%{_libdir}/wwwcount/digits/{A,B,C,D,E}
@@ -44,6 +45,8 @@ install src/Count.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/wwwcount.cgi
 install $RPM_SOURCE_DIR/wwwcount.cfg $RPM_BUILD_ROOT/etc
 install wcount/data/* $RPM_BUILD_ROOT/var/lib/wwwcount
 install wcount/rgb.txt $RPM_BUILD_ROOT%{_libdir}/wwwcount
+
+INSTALL %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
 
 for FONT in A B C D E; do
   install wcount/digits/$FONT/* $RPM_BUILD_ROOT%{_libdir}/wwwcount/digits/$FONT
@@ -71,4 +74,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(775,http,http) %dir /var/lib/wwwcount
 %attr(664,http,http) /var/lib/wwwcount/*
 %attr(640,root,root) /var/log/httpd/wwwcount
+%attr(640,root,root) %config(noreplace) /etc/logrotate.d/*
 %{_libdir}/wwwcount
