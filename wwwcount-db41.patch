@@ -1,0 +1,22 @@
+--- wwwcount2.6/libs/ldbm/ldbm.c.orig	2001-10-14 18:46:15.000000000 +0200
++++ wwwcount2.6/libs/ldbm/ldbm.c	2004-04-09 21:39:49.836061608 +0200
+@@ -13,6 +13,7 @@
+  */
+ 
+ #include <stdio.h>
++#include <string.h>
+ #include "ldbm.h"
+ 
+ /*
+@@ -281,7 +283,11 @@
+        ret->set_malloc( ret, ldbm_malloc );
+        */
+        ret->set_cachesize( ret, 0, dbcachesize, 0 );
++#if (DB_VERSION_MAJOR == 4) && (DB_VERSION_MINOR >= 1)
++       err = ret->open( ret, NULL, name, NULL, DB_TYPE, rw, mode);
++#else
+        err = ret->open( ret, name, NULL, DB_TYPE, rw, mode);
++#endif
+        /*LDBM_UNLOCK*/;
+        if ( err != 0 )
+        {
