@@ -2,7 +2,7 @@ Summary:	WWW Hit Access Counter
 Summary(pl):	Licznik dostepu do strony WWW
 Name:		wwwcount
 Version:	2.4
-Release:	1
+Release:	2
 Group:		Networking/Utilities
 Group(pl):	Sieciowe/Narzêdzia
 Copyright:	GPL
@@ -64,8 +64,8 @@ rm -f $TMPFILE
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%doc docs/*
 %defattr(644,root,root,755)
+%doc docs/*
 %attr(755,root,root) /home/httpd/cgi-bin/wwwcount.cgi
 %config /etc/wwwcount.cfg
 %attr(775,http,http) %dir /var/lib/wwwcount
