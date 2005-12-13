@@ -1,0 +1,4 @@
+- simplified %post, added Requires()
+- refresh config.* - athlon-ready now
+- use db 4.x by default (bcond for db3)
+- release 7
