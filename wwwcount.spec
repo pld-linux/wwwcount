@@ -23,8 +23,8 @@ Patch2:		%{name}-db41.patch
 URL:		http://www.muquit.com/muquit/software/Count/Count2.6/Count.html
 BuildRequires:	automake
 %if %{with database}
-%{?with_db3:BuildRequires:	db3-devel}
 %{!?with_db3:BuildRequires:	db-devel}
+%{?with_db3:BuildRequires:	db3-devel}
 %endif
 BuildRequires:	freetype1-devel
 Requires(post):	/bin/hostname
@@ -107,13 +107,13 @@ mv -f %{_sysconfdir}/wwwcount.cfg.rpmtmp %{_sysconfdir}/wwwcount.cfg
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{cgidir}/wwwcount.cgi
 %{?with_database:%attr(755,root,root) %{cgidir}/wwwcount_*.cgi}
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/wwwcount.cfg
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/wwwcount.cfg
 %attr(775,root,http) %dir /var/lib/wwwcount
 %attr(775,root,http) %dir /var/lib/wwwcount/log
 %attr(775,root,http) %dir /var/lib/wwwcount/log/archiv
 %{!?with_database:%attr(775,root,http) %dir /var/lib/wwwcount/data}
 %{?with_database:%attr(775,root,http) %dir /var/lib/wwwcount/db}
-%{!?with_database:%attr(664,root,http) %config(noreplace) %verify(not size mtime md5) /var/lib/wwwcount/data/*}
-%attr(664,root,http) %config(noreplace) %verify(not size mtime md5) /var/lib/wwwcount/log/wwwcount*
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/*
+%{!?with_database:%attr(664,root,http) %config(noreplace) %verify(not md5 mtime size) /var/lib/wwwcount/data/*}
+%attr(664,root,http) %config(noreplace) %verify(not md5 mtime size) /var/lib/wwwcount/log/wwwcount*
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/*
 %{_libdir}/wwwcount
