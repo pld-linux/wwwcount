@@ -1,3 +1,4 @@
+# TODO: use /usr/lib/cgi-bin instead of /home/services
 #
 # Conditional build:
 %bcond_without	database	# without database support (wwwcount works in old way)
