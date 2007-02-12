@@ -5,7 +5,7 @@
 %bcond_with	db3		# use db3 instead of db package
 #
 Summary:	WWW Hit Access Counter
-Summary(pl.UTF-8):   Licznik dostępu do strony WWW
+Summary(pl.UTF-8):	Licznik dostępu do strony WWW
 Name:		wwwcount
 Version:	2.6
 Release:	9
