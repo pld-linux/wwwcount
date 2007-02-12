@@ -5,7 +5,7 @@
 %bcond_with	db3		# use db3 instead of db package
 #
 Summary:	WWW Hit Access Counter
-Summary(pl):	Licznik dostêpu do strony WWW
+Summary(pl.UTF-8):   Licznik dostÄ™pu do strony WWW
 Name:		wwwcount
 Version:	2.6
 Release:	9
@@ -42,10 +42,10 @@ wwwcount is a cgi script for apache (and other HTTP daemons), which
 prododuces nice picture with number of people visited your website.
 You can use your custom fonts with wwwcount.
 
-%description -l pl
-wwwcount jest skryptem cgi do apache (i innych serwerów HTTP), który
-generuje piêkny obrazek z ilo¶ci± osób które odwiedzi³y twoj± stronê.
-Mo¿esz u¿ywaæ tak¿e swoich unikalnych czcionek.
+%description -l pl.UTF-8
+wwwcount jest skryptem cgi do apache (i innych serwerÃ³w HTTP), ktÃ³ry
+generuje piÄ™kny obrazek z iloÅ›ciÄ… osÃ³b ktÃ³re odwiedziÅ‚y twojÄ… stronÄ™.
+MoÅ¼esz uÅ¼ywaÄ‡ takÅ¼e swoich unikalnych czcionek.
 
 %prep
 %setup -q -n %{name}%{version}
