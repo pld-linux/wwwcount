@@ -70,7 +70,7 @@ cp -f /usr/share/automake/config.* .
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/logrotate.d,%{cgidir}} \
-	$RPM_BUILD_ROOT/var/{log/httpd,lib/wwwcount/{data,db,log/archiv}} \
+	$RPM_BUILD_ROOT/var/{log/httpd,lib/wwwcount/{data,db,log/archive}} \
 	$RPM_BUILD_ROOT{%{_libdir}/wwwcount,%{_bindir}}
 
 install bin/Count.cgi $RPM_BUILD_ROOT%{cgidir}/wwwcount.cgi
