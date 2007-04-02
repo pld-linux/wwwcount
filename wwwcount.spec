@@ -111,7 +111,7 @@ mv -f %{_sysconfdir}/wwwcount.cfg.rpmtmp %{_sysconfdir}/wwwcount.cfg
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/wwwcount.cfg
 %attr(775,root,http) %dir /var/lib/wwwcount
 %attr(775,root,http) %dir /var/lib/wwwcount/log
-%attr(775,root,http) %dir /var/lib/wwwcount/log/archiv
+%attr(775,root,http) %dir /var/lib/wwwcount/log/archive
 %{!?with_database:%attr(775,root,http) %dir /var/lib/wwwcount/data}
 %{?with_database:%attr(775,root,http) %dir /var/lib/wwwcount/db}
 %{!?with_database:%attr(664,root,http) %config(noreplace) %verify(not md5 mtime size) /var/lib/wwwcount/data/*}
