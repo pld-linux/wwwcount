@@ -8,7 +8,7 @@ Summary:	WWW Hit Access Counter
 Summary(pl.UTF-8):	Licznik dostępu do strony WWW
 Name:		wwwcount
 Version:	2.6
-Release:	9
+Release:	10
 Epoch:		1
 Group:		Networking/Utilities
 License:	BSD-like
@@ -32,6 +32,7 @@ Requires(post):	/bin/hostname
 Requires(post):	fileutils
 Requires(post):	sed
 Requires:	webserver
+Conflicts:	logrotate < 3.8.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		httpdir		/home/services/httpd
