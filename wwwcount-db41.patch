@@ -12,7 +12,7 @@
         ret->set_malloc( ret, ldbm_malloc );
         */
         ret->set_cachesize( ret, 0, dbcachesize, 0 );
-+#if (DB_VERSION_MAJOR == 4) && (DB_VERSION_MINOR >= 1)
++#if (DB_VERSION_MAJOR == 5) || ((DB_VERSION_MAJOR == 4) && (DB_VERSION_MINOR >= 1))
 +       err = ret->open( ret, NULL, name, NULL, DB_TYPE, rw, mode);
 +#else
         err = ret->open( ret, name, NULL, DB_TYPE, rw, mode);
