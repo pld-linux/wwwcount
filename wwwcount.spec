@@ -8,7 +8,7 @@ Summary:	WWW Hit Access Counter
 Summary(pl.UTF-8):	Licznik dostępu do strony WWW
 Name:		wwwcount
 Version:	2.6
-Release:	12
+Release:	13
 Epoch:		1
 Group:		Networking/Utilities
 License:	BSD-like
