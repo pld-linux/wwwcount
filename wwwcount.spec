@@ -50,9 +50,9 @@ Możesz używać także swoich unikalnych czcionek.
 
 %prep
 %setup -q -n %{name}%{version}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p1
 tar xzf %{SOURCE1}
 
 for a in `find -type f -name "*.pl*"`
